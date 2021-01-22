@@ -46,12 +46,7 @@ def create_db(name):
     cursor.execute("USE "+name)
     sql="""CREATE table 
         IF NOT EXISTS webinfo(
-            year INT,
-            month INT,
-            day INT,
-            hour INT,
-            min INT,
-            sec INT,
+            time DATETIME,
             title VARCHAR(100) ,
             source VARCHAR(50) NULL,
             author VARCHAR(50)NULL,
@@ -62,7 +57,7 @@ def create_db(name):
     cursor.execute(sql)
     print('数据库'+name+"创建成功")
 # name是当前数据库的名字
-def insert(y,m,d,h,min,sec,title,source,author,text,name):
+def insert(time,title,source,author,text,name):
     sql = "USE " + name 
     try:
         cursor.execute(sql)
@@ -71,8 +66,8 @@ def insert(y,m,d,h,min,sec,title,source,author,text,name):
         print("不存在该数据库")
     try:
         cursor.execute(
-            "REPLACE INTO webinfo VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-            [y,m,d,h,min,sec,title,source,author,text,]
+            "REPLACE INTO webinfo VALUES (%s,%s,%s,%s,%s)",
+            [time,title,source,author,text,]
         )
         connection.commit()
         print("插入数据成功")
